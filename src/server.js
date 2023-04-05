@@ -5,8 +5,6 @@ const migrationsRun = require('./database/sqlite/migrations')
 const AppError = require('./utils/AppError')
 const uploadConfig = require('./configs/upload')
 
-const path = require('path')
-
 const express = require('express')
 
 migrationsRun()
@@ -16,7 +14,7 @@ const routes = require('./routes')
 const app = express()
 app.use(express.json())
 
-app.use('/plates', express.static(uploadConfig.UPLOADS_FOLDER))
+app.use('/plateImage', express.static(uploadConfig.UPLOADS_FOLDER))
 
 app.use(routes)
 
