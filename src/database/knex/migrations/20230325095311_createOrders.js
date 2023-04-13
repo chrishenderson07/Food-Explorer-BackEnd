@@ -6,7 +6,6 @@ exports.up = (knex) =>
 		table.float('price')
 
 		table.timestamp('created_at').defaultTo(knex.fn.now())
-		table.timestamp('updated_at').defaultTo(knex.fn.now())
 
 		table
 			.integer('user_id')
