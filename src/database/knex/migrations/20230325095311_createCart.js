@@ -15,4 +15,4 @@ exports.up = (knex) =>
 		table.timestamp('created_at').defaultTo(knex.fn.now())
 	})
 
-exports.down = (knex) => knex.schema.dropTable('plates')
+exports.down = (knex) => knex.schema.dropTable('cart')

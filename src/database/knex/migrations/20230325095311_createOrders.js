@@ -1,17 +1,15 @@
 exports.up = (knex) =>
 	knex.schema.createTable('orders', (table) => {
 		table.increments('id')
-		table.text('status')
-		table.text('description')
-		table.float('price')
-
-		table.timestamp('created_at').defaultTo(knex.fn.now())
+		table.integer('cart_id').references('id').inTable('cart')
+		table.integer('plate_id').references('id').inTable('plates')
 
 		table
-			.integer('user_id')
-			.references('id')
-			.inTable('users')
-			.onDelete('CASCADE')
+			.enu('status', ['Pendente', 'Preparando', 'Entregue'])
+			.defaultTo('Pendente', (options = {}))
+
+		table.timestamp('created_at').default(knex.fn.now())
+		table.timestamp('update_at').default(knex.fn.now())
 	})
 
 exports.down = (knex) => knex.schema.dropTable('orders')
