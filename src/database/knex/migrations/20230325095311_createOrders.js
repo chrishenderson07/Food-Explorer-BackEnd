@@ -1,8 +1,9 @@
 exports.up = (knex) =>
 	knex.schema.createTable('orders', (table) => {
 		table.increments('id')
-		table.integer('cart_id').references('id').inTable('cart')
-		table.integer('plate_id').references('id').inTable('plates')
+		table.string('plate_id')
+		table.integer('user_id').references('id').inTable('users')
+		table.integer('total_price')
 
 		table
 			.enu('status', ['Pendente', 'Preparando', 'Entregue'])

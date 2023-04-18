@@ -1,4 +1,6 @@
 exports.up = (knex) =>
+	/* Retirar Carrinho e adapta-lo para LocalStorage ao invéz de DB */
+
 	knex.schema.createTable('cart', (table) => {
 		table.increments('id')
 		table
