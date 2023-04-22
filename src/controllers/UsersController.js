@@ -26,7 +26,7 @@ class UsersController {
 
 		await database.run(
 			'INSERT INTO users (name, email, password, isAdmin) VALUES (?,?,?,?)',
-			[name, email, hashedPassword, isAdmin],
+			[name, email, hashedPassword, isAdmin ? 1 : 0],
 		)
 
 		return response.status(201).json()
