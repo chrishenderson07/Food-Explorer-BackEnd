@@ -3,22 +3,21 @@ const DiskStorage = require('../providers/DiskStorage')
 
 class PlatesController {
 	async create(request, response) {
-		const { title, description, price, ingredients } = request.body
+		// const { title, description, price, categories, ingredients } = request.body
 
+		const { title, description, price, categories, ingredients } = request.body
+		const imageFile = request.file.filename
 		const ingredientList = ingredients.split(',')
-
-		const image = request.file.filename
 
 		const diskStorage = new DiskStorage()
 
-		const filename = await diskStorage.saveFile(image)
-
-		console.log(filename)
+		const filename = await diskStorage.saveFile(imageFile)
 
 		const [plate_id] = await knex('plates').insert({
 			title,
 			description,
-			price: Number(price),
+			price,
+			categories,
 			image: filename,
 		})
 
@@ -32,18 +31,25 @@ class PlatesController {
 		await knex('ingredients').insert(ingredientsInsert)
 
 		return response.json({ plate_id, ingredients })
+		// return response.json({ plate_id })
 	}
 
 	async update(request, response) {
-		const { title, description, price, ingredients } = request.body
+		const { title, description, price, categories, ingredients } = request.body
 		const { id } = request.params
+
+		// const imageFile = request.file.filename
+		// const diskStorage = new DiskStorage()
+
+		// const filename = await diskStorage.saveFile(imageFile)
 
 		const plate = await knex('plates').where({ id })
 
 		plate.title = title ?? plate.title
 		plate.description = description ?? plate.description
 		plate.price = price ?? plate.price
-		plate.price = price ?? plate.price
+		plate.categories = categories ?? plate.categories
+		// plate.image = filename ?? plate.image
 
 		if (ingredients) {
 			await knex('ingredients').where({ plate_id: id }).delete()
@@ -62,6 +68,7 @@ class PlatesController {
 			title,
 			description,
 			price,
+			categories,
 		})
 
 		return response.json()
@@ -71,11 +78,12 @@ class PlatesController {
 		const { id } = request.params
 
 		const plate = await knex('plates').where({ id }).first()
+		const { image } = plate
 		const ingredients = await knex('ingredients')
 			.where({ plate_id: id })
 			.orderBy('name')
 
-		return response.json({ ...plate, ingredients })
+		return response.json({ ...plate, image, ingredients })
 	}
 
 	async index(request, response) {
