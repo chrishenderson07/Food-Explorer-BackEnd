@@ -87,16 +87,41 @@ class PlatesController {
 	}
 
 	async index(request, response) {
-		const { title } = request.query
+		const { title, ingredients } = request.query
 
 		let plates
 
-		if (title) {
-			plates = await knex('plates').whereLike('plates.title', `%${title}%`)
+		if (ingredients) {
+			const filteredIngredients = ingredients
+				.split(',')
+				.map((ingredient) => ingredient.trim())
+
+			plates = await knex('ingredients')
+				.select(['plates.id', 'plates.title'])
+				.whereLike('plates.title', `%${title}%`)
+				.whereIn('name', filteredIngredients)
+				.innerJoin('plates', 'plates.id', 'ingredients.plate_id')
+				.groupBy('plates.id')
+				.orderBy('plates.title')
 		} else {
 			plates = await knex('plates')
+				.whereLike('title', `%${title}%`)
+				.orderBy('title')
 		}
-		return response.json(plates)
+
+		const platesIngredients = await knex('ingredients')
+		const platesWithIngredients = plates.map((plate) => {
+			const plateIngredient = platesIngredients.filter(
+				(ingredients) => ingredients.plate_id === plate.id,
+			)
+
+			return {
+				...plate,
+				ingredients: plateIngredient,
+			}
+		})
+
+		return response.json(platesWithIngredients)
 	}
 
 	async delete(request, response) {
