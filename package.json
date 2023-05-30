@@ -1,7 +1,7 @@
 {
-	"name": "foodexplorerbackend",
+	"name": "food-explorer-backend",
 	"version": "1.0.0",
-	"description": "",
+	"description": "API desenvolvida para o projeto Food Explorer",
 	"main": "index.js",
 	"scripts": {
 		"start": "pm2-runtime start ecosystem.config.js --env production",
