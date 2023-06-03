@@ -1,13 +1,14 @@
 exports.up = (knex) =>
 	knex.schema.createTable('orders', (table) => {
 		table.increments('id')
-		table.string('plate_id')
+		table.text('plate_id')
+		table.text('quantity')
+		table.text('total_price')
 		table.integer('user_id').references('id').inTable('users')
-		table.integer('total_price')
 
 		table
 			.enu('status', ['Pendente', 'Preparando', 'Entregue'])
-			.defaultTo('Pendente', (options = {}))
+			.defaultTo('Preparando', (options = {}))
 
 		table.timestamp('created_at').default(knex.fn.now())
 		table.timestamp('update_at').default(knex.fn.now())
