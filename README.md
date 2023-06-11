@@ -1,7 +1,7 @@
 <h1 align="center"> 🍽️ Food Explorer - Backend </h1>
 
 <h5 align="center">
-    <a href="https://food-explorer-2022.netlify.app/"> <img src="https://github.com/chrishenderson07/Food-Explorer/blob/master/public/apresentacao-mobile.gif?raw=true" alt="Capa do Food Explorer"></a><br>
+    <a href="https://cute-palmier-a81954.netlify.app/"> <img src="https://github.com/chrishenderson07/Food-Explorer/blob/master/public/apresentacao-mobile.gif?raw=true" alt="Capa do Food Explorer"></a><br>
     Clique na imagem para ver o deploy do projeto
 
 </h5>
